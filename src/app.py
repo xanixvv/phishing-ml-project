@@ -540,7 +540,7 @@ def analyze_url(url: str):
             (
                 "HIGH",
                 "Sensitive-action keywords detected: "
-                + ", ".join(dict.fromkeys(keywords)[:8]),
++ ", ".join(list(dict.fromkeys(keywords))[:8]),
             )
         )
 
@@ -1026,7 +1026,7 @@ def render_result(result: dict, show_explanation: bool = True):
     with action_cols[0]:
         if st.button(
             "💾 Save scan",
-            use_container_width=True,
+            width="stretch",
             key=f"save_scan_{hash(result['url'])}",
         ):
             save_scan(result)
@@ -1038,7 +1038,7 @@ def render_result(result: dict, show_explanation: bool = True):
             data=build_html_report(result),
             file_name="phishing_security_report.html",
             mime="text/html",
-            use_container_width=True,
+            width="stretch"
         )
 
     with action_cols[2]:
@@ -1051,7 +1051,7 @@ def render_result(result: dict, show_explanation: bool = True):
             ),
             file_name="phishing_analysis.json",
             mime="application/json",
-            use_container_width=True,
+            width="stretch"
         )
 
     st.markdown("### Analyzed URL")
@@ -1136,7 +1136,7 @@ def render_result(result: dict, show_explanation: bool = True):
 
             st.plotly_chart(
                 fig,
-                use_container_width=True,
+                width="stretch",
                 key=f"phish_explain_{hash(result['url'])}",
             )
         else:
@@ -1181,7 +1181,7 @@ def render_result(result: dict, show_explanation: bool = True):
 
             st.plotly_chart(
                 fig,
-                use_container_width=True,
+               width="stretch",
                 key=f"legit_explain_{hash(result['url'])}",
             )
         else:
@@ -1215,7 +1215,7 @@ def render_result(result: dict, show_explanation: bool = True):
         with st.expander("View learned feature details"):
             st.dataframe(
                 pd.DataFrame(rows),
-                use_container_width=True,
+                width="stretch",
                 hide_index=True,
             )
 
@@ -1331,7 +1331,7 @@ if page == "🏠 Overview":
         if st.button(
             "🔎 Analyze a URL",
             type="primary",
-            use_container_width=True,
+            width="stretch",
         ):
             st.session_state["quick_url"] = True
             st.rerun()
@@ -1339,7 +1339,7 @@ if page == "🏠 Overview":
     with a2:
         if st.button(
             "📷 Scan a QR code",
-            use_container_width=True,
+            width="stretch",
         ):
             st.session_state["quick_qr"] = True
             st.rerun()
@@ -1347,7 +1347,7 @@ if page == "🏠 Overview":
     with a3:
         if st.button(
             "📊 Open ML Dashboard",
-            use_container_width=True,
+            width="stretch",
         ):
             st.session_state["quick_ml"] = True
             st.rerun()
@@ -1437,7 +1437,7 @@ if page == "🏠 Overview":
             )
             st.plotly_chart(
                 fig_snapshot,
-                use_container_width=True,
+                width="stretch",
             )
 
     st.markdown("## Current model")
@@ -1487,7 +1487,7 @@ elif page == "🔎 URL Scanner":
     with sample_cols[0]:
         if st.button(
             "Use safe example",
-            use_container_width=True,
+            width="stretch",
         ):
             st.session_state["scan_url"] = (
                 "https://www.google.com"
@@ -1496,7 +1496,7 @@ elif page == "🔎 URL Scanner":
     with sample_cols[1]:
         if st.button(
             "Use phishing demo",
-            use_container_width=True,
+            width="stretch",
         ):
             st.session_state["scan_url"] = (
                 "http://paypal-login-verify.example.com/"
@@ -1506,7 +1506,7 @@ elif page == "🔎 URL Scanner":
     with sample_cols[2]:
         if st.button(
             "Use IP-based demo",
-            use_container_width=True,
+            width="stretch",
         ):
             st.session_state["scan_url"] = (
                 "http://192.168.0.45/"
@@ -1525,7 +1525,7 @@ elif page == "🔎 URL Scanner":
         submitted = st.form_submit_button(
             "🔍 Analyze URL",
             type="primary",
-            use_container_width=True,
+            width="stretch",
         )
 
     st.caption(
@@ -1605,7 +1605,7 @@ elif page == "📷 QR Scanner":
                 image,
                 channels="BGR",
                 caption="Uploaded QR image",
-                use_container_width=True,
+                width="stretch",
             )
 
             urls = decode_qr_codes(image)
@@ -1695,14 +1695,14 @@ elif page == "📂 Batch Scanner":
 
         st.dataframe(
             batch_df.head(8),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 
         if st.button(
             "🚨 Scan all URLs",
             type="primary",
-            use_container_width=True,
+            width="stretch",
         ):
             records = []
 
@@ -1795,7 +1795,7 @@ elif page == "📂 Batch Scanner":
 
         st.dataframe(
             result_df,
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 
@@ -1804,7 +1804,7 @@ elif page == "📂 Batch Scanner":
             data=result_df.to_csv(index=False).encode("utf-8"),
             file_name="phishing_batch_report.csv",
             mime="text/csv",
-            use_container_width=True,
+            width="stretch",
         )
 
         chart_data = pd.DataFrame(
@@ -1835,7 +1835,7 @@ elif page == "📂 Batch Scanner":
 
         st.plotly_chart(
             fig,
-            use_container_width=True,
+            width="stretch",
         )
 
 
@@ -1930,7 +1930,7 @@ elif page == "🕘 History":
 
         st.dataframe(
             filtered,
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 
@@ -1956,7 +1956,7 @@ elif page == "🕘 History":
 
         st.plotly_chart(
             fig,
-            use_container_width=True,
+            width="stretch",
         )
 
 
@@ -2046,7 +2046,7 @@ elif page == "📊 ML Dashboard":
                     for col in numeric_columns
                 }
             ),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 
@@ -2078,7 +2078,7 @@ elif page == "📊 ML Dashboard":
 
         st.plotly_chart(
             fig,
-            use_container_width=True,
+            width="stretch",
         )
 
     # ------------------------------------------------------------
@@ -2193,7 +2193,7 @@ elif page == "📊 ML Dashboard":
 
                 st.plotly_chart(
                     fig,
-                    use_container_width=True,
+                    width="stretch",
                 )
 
             with cm2:
@@ -2229,7 +2229,7 @@ elif page == "📊 ML Dashboard":
 
                 st.plotly_chart(
                     fig,
-                    use_container_width=True,
+                    width="stretch",
                 )
 
         if actual_col and probability_col:
@@ -2316,7 +2316,7 @@ elif page == "📊 ML Dashboard":
 
                     st.plotly_chart(
                         fig,
-                        use_container_width=True,
+                        width="stretch",
                     )
 
                 with pr_col:
@@ -2341,7 +2341,7 @@ elif page == "📊 ML Dashboard":
 
                     st.plotly_chart(
                         fig,
-                        use_container_width=True,
+                        width="stretch",
                     )
 
                 st.markdown("## Score separation")
@@ -2384,7 +2384,7 @@ elif page == "📊 ML Dashboard":
 
                 st.plotly_chart(
                     fig,
-                    use_container_width=True,
+                    width="stretch",
                 )
 
                 st.markdown("## Threshold analysis")
@@ -2485,7 +2485,7 @@ elif page == "📊 ML Dashboard":
 
                 st.plotly_chart(
                     fig,
-                    use_container_width=True,
+                    width="stretch",
                 )
 
                 best = threshold_df.loc[
@@ -2572,7 +2572,7 @@ elif page == "📊 ML Dashboard":
 
             st.plotly_chart(
                 fig,
-                use_container_width=True,
+                width="stretch",
             )
 
 
@@ -2696,7 +2696,7 @@ elif page == "🧪 Research":
 
     st.dataframe(
         training_df,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
 
